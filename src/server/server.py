@@ -229,8 +229,9 @@ class Server:
         # weights_aggregated = Parameters.parameters_to_weights(parameters_aggregated)
         weights_aggregated = parameter.parameters_to_weights(parameters_aggregated)
         model.set_weights(weights_aggregated)
-        model.save_weights('global_model_round_'+str(rnd)+'.h5')
-        
+        model.save_weights('global_models/round_'+str(rnd)+'.h5')
+        # metrics_aggregated = {"round": rnd}
+        # print('[TEM] - metrics',metrics_aggregated)
         return parameters_aggregated, metrics_aggregated, (results, failures)
 
     def disconnect_all_clients(self) -> None:
