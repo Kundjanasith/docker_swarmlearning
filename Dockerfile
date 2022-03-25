@@ -44,12 +44,8 @@ EXPOSE 19191
 
 COPY src .
 
-if [ "$server" = "True" ]
-then
-    CMD ["screen","-S","server","python3","server.py",">>","server.log"]
-fi
+RUN if [ "$server" = "True" ]; then
+CMD ["screen","-S","server","python3","server.py",">>","server.log"]; fi
 
-if [ "$client" = "True" ]
-then
-    CMD ["screen","-S","client","python3","client.py ${client} ${server}",">>","client.log"]
-fi
+RUN if [ "$client" = "True" ]; then
+CMD ["screen","-S","client","python3","client.py ${client} ${server}",">>","client.log"]; fi
