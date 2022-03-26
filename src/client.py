@@ -7,6 +7,9 @@ import numpy as np
 client_ip = sys.argv[1]
 server_ip = sys.argv[2]
 
+print('CLIENT IP',client_ip)
+print('SERVER IP',server_ip)
+
 # Load model and data (MobileNetV2, CIFAR-10)
 model = tf.keras.applications.MobileNetV2((32, 32, 3), classes=10, weights=None)
 model.compile("adam", "sparse_categorical_crossentropy", metrics=["accuracy"])
