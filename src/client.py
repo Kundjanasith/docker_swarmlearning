@@ -1,11 +1,11 @@
 import client
 import tensorflow as tf
-import sys
+import sys. os
 import random
 import numpy as np
 
-client_ip = sys.argv[1]
-server_ip = sys.argv[2]
+client_ip = os.environ["client"]
+server_ip = os.environ["server"]
 
 print('CLIENT IP',client_ip)
 print('SERVER IP',server_ip)
