@@ -1,6 +1,6 @@
 import client
 import tensorflow as tf
-import sys. os
+import sys, os
 import random
 import numpy as np
 
