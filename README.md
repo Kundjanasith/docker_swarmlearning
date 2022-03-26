@@ -1,7 +1,7 @@
 # Federated Learning Docker on RPI Cluster
 
 
-Ref:
+> Reference
 ```bibtex
 @article{beutel2020flower,
   title={Flower: A Friendly Federated Learning Research Framework},
@@ -11,12 +11,24 @@ Ref:
 }
 ```
 
-Command:
+## SERVER
+
+> BUILD
 ```
-docker run -p 19191:19191 \
- -e server=<server_ip> \
- -e client=<client_ip> \
- -e server_status=<True,False> \ #Default False
- -e client_status=<True,False> \ #Default False
- -d <image_id>
+sudo docker build -t server -f Dockerfile.server .
+```
+> RUN
+```
+sudo docker run -d -p 19191:19191 kundjanasith/pik8k3_fl:server
+```
+
+## CLIENT
+
+> BUILD
+```
+sudo docker build -t client -f Dockerfile.client .
+```
+> RUN
+```
+sudo docker run -d -e server=<server_ip> -e client=<client_ip> kundjanasith/pik8k3_fl:client
 ```
