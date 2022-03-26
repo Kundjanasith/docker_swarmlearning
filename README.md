@@ -19,7 +19,7 @@ sudo docker build -t server -f Dockerfile.server .
 ```
 > RUN
 ```
-sudo docker run -d -p 19191:19191 kundjanasith/pik8k3_fl:server
+sudo docker run -d -p 19191:19191 kundjanasith/pik8ke_fl:server
 ```
 
 ## CLIENT
@@ -30,5 +30,5 @@ sudo docker build -t client -f Dockerfile.client .
 ```
 > RUN
 ```
-sudo docker run -d -e server=<server_ip> -e client=<client_ip> kundjanasith/pik8k3_fl:client
+sudo docker run -d -e server=<server_ip> -e client=<client_ip> kundjanasith/pik8ke_fl:client
 ```
