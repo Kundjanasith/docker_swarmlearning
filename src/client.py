@@ -3,9 +3,12 @@ import tensorflow as tf
 import sys, os
 import random
 import numpy as np
+import glob
 
 client_ip = os.environ["client"]
 server_ip = os.environ["server"]
+# client_ip = sys.argv[1]
+# server_ip = sys.argv[2]
 
 print('CLIENT IP',client_ip)
 print('SERVER IP',server_ip)
@@ -16,8 +19,8 @@ model.compile("adam", "sparse_categorical_crossentropy", metrics=["accuracy"])
 (x_train, y_train), (x_test, y_test) = tf.keras.datasets.cifar10.load_data()
 
 def sampling_data():
-    num_of_each_dataset = 500
-    # num_of_each_dataset = int(config['learning']['data_per_epoch'])
+    # num_of_each_dataset = 500 #500
+    num_of_each_dataset = int(x_train.shape[0]/10)
     split_data_index = []
     while len(split_data_index) < num_of_each_dataset:
         item = random.choice(range(x_train.shape[0]))
@@ -39,10 +42,11 @@ class CifarClient(client.NumPyClient):
   def fit(self, parameters, config):
     self.round = self.round + 1
     model.set_weights(parameters)
-    model.save_weights('local_models/client_'+client_ip+'_round'+str(self.round)+'_before.h5')
+    # model.save_weights('local_models/client_'+client_ip+'_round'+str(self.round)+'_before.h5')
     x_train, y_train = sampling_data()
-    model.fit(x_train, y_train, epochs=5, batch_size=4, verbose=2)
-    model.save_weights('local_models/client_'+client_ip+'_round'+str(self.round)+'_after.h5')
+    model.fit(x_train, y_train, epochs=5, batch_size=16, verbose=2)
+    # model.save_weights('local_models/client_'+client_ip+'_round'+str(self.round)+'_after.h5')
+    model.save_weights('local_models/client_'+client_ip+'_round'+str(self.round)+'.h5')
     return model.get_weights(), len(x_train), {}
 
   def evaluate(self, parameters, config):
@@ -51,4 +55,4 @@ class CifarClient(client.NumPyClient):
     return loss, len(x_test), {"accuracy": accuracy}
 
 # Start Flower client
-client.start_numpy_client(server_ip+":19191", client=CifarClient(0))
+client.start_numpy_client(server_ip+":19191", client=CifarClient(len(glob.glob('local_models/*.h5'))))

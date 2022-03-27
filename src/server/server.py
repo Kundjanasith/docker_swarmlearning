@@ -50,7 +50,6 @@ ReconnectResultsAndFailures = Tuple[
     List[BaseException],
 ]
 
-
 class Server:
     """Flower server."""
 
