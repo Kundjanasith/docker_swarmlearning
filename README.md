@@ -11,6 +11,24 @@
 }
 ```
 
+## Configuration
+
+### Model
+The deault model is MobileNet
+- Modify the global model at line 225 of src/server/server.py
+- Modify the local model at line 17 of src/client.py
+
+## Dataset
+The default datasets is CIFAR10
+- Modify the dataset at line 19 of src/client.py
+The default dataset distribution is randomly picking up
+- Modify dataset distribution at sampling_data() method of src/client.py
+
+## Federated Learning algorithm
+The default federated learning algorithm is FedAvg
+- Modify the default federated learning algorithm at line 63 of src/server/server.py
+
+## 
 ## SERVER
 
 > BUILD
