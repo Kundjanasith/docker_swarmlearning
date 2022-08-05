@@ -54,5 +54,3 @@ sudo docker run -d -e server=<server_ip> -e client=<client_ip> -v local_models:/
 ## RESULT (MobileNet, CIFAR10)
 
 ![global model](/figures/plot_accuracy_global_model.png)
-
-![local model](/figures/plot_accuracy_local_model.png)
