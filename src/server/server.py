@@ -76,7 +76,7 @@ class Server:
         return self._client_manager
 
     # pylint: disable=too-many-locals
-    def fit(self, num_rounds: int) -> History:
+    def fit(self, ip:str, num_rounds: int) -> History:
         """Run federated averaging for a number of rounds."""
         history = History()
 
@@ -101,7 +101,7 @@ class Server:
 
         for current_round in range(1, num_rounds + 1):
             # Train model and replace previous global model
-            res_fit = self.fit_round(rnd=current_round)
+            res_fit = self.fit_round(ip=ip,rnd=current_round)
             if res_fit:
                 parameters_prime, _, _ = res_fit  # fit_metrics_aggregated
                 if parameters_prime:
@@ -181,7 +181,7 @@ class Server:
         return loss_aggregated, metrics_aggregated, (results, failures)
 
     def fit_round(
-        self, rnd: int
+        self, ip: str, rnd: int
     ) -> Optional[
         Tuple[Optional[Parameters], Dict[str, Scalar], FitResultsAndFailures]
     ]:
@@ -225,7 +225,7 @@ class Server:
         model = tf.keras.applications.MobileNetV2((32, 32, 3), classes=10, weights=None)
         weights_aggregated = parameter.parameters_to_weights(parameters_aggregated)
         model.set_weights(weights_aggregated)
-        model.save_weights('global_models/round_'+str(rnd)+'.h5')
+        model.save_weights('global_models/server_'+ip+'_round_'+str(rnd)+'.h5')
         return parameters_aggregated, metrics_aggregated, (results, failures)
 
     def disconnect_all_clients(self) -> None:

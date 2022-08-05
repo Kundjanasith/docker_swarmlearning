@@ -1,3 +1,6 @@
 import server
+import sys
 
-server.start_server("0.0.0.0:19191",config={"num_rounds": 10000})
+x = sys.argv[1]
+
+server.start_server(x,config={"num_rounds": 10000})

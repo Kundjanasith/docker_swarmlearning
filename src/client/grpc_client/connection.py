@@ -91,22 +91,28 @@ def grpc_connection(
         ("grpc.max_receive_message_length", max_message_length),
     ]
 
-    if root_certificates is not None:
-        ssl_channel_credentials = grpc.ssl_channel_credentials(root_certificates)
-        channel = grpc.secure_channel(
-            server_address, ssl_channel_credentials, options=channel_options
-        )
-        log(INFO, "Opened secure gRPC connection using certificates")
-    else:
+    # if root_certificates is not None:
+    #     ssl_channel_credentials = grpc.ssl_channel_credentials(root_certificates)
+    #     channel = grpc.secure_channel(
+    #         server_address, ssl_channel_credentials, options=channel_options
+    #     )
+    #     log(INFO, "Opened secure gRPC connection using certificates")
+    # else:
+    #     channel = grpc.insecure_channel(server_address, options=channel_options)
+    #     log(INFO, "Opened insecure gRPC connection (no certificates were passed)")
+
+    server_address_list = server_address
+    channel_list = []
+    for server_address in server_address_list:
         channel = grpc.insecure_channel(server_address, options=channel_options)
         log(INFO, "Opened insecure gRPC connection (no certificates were passed)")
 
-    channel.subscribe(on_channel_state_change)
-
+        channel.subscribe(on_channel_state_change)
+        channel_list.append(channel)
     queue: Queue[ClientMessage] = Queue(  # pylint: disable=unsubscriptable-object
         maxsize=1
     )
-    stub = FlowerServiceStub(channel)
+    stub = FlowerServiceStub(channel_list)
 
     server_message_iterator: Iterator[ServerMessage] = stub.Join(iter(queue.get, None))
 
@@ -118,4 +124,4 @@ def grpc_connection(
     finally:
         # Make sure to have a final
         channel.close()
-        log(DEBUG, "gRPC channel closed")
+        log(DEBUG, "gRPC channel closed") 

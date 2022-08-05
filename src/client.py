@@ -5,10 +5,11 @@ import random
 import numpy as np
 import glob
 
-client_ip = os.environ["client"]
-server_ip = os.environ["server"]
-# client_ip = sys.argv[1]
-# server_ip = sys.argv[2]
+# client_ip = os.environ["client"]
+# server_ip = os.environ["server"]
+client_ip = sys.argv[1]
+server_ip = sys.argv[2]
+server_ip1 = sys.argv[3]
 
 print('CLIENT IP',client_ip)
 print('SERVER IP',server_ip)
@@ -55,4 +56,6 @@ class CifarClient(client.NumPyClient):
     return loss, len(x_test), {"accuracy": accuracy}
 
 # Start Flower client
-client.start_numpy_client(server_ip+":19191", client=CifarClient(len(glob.glob('local_models/*.h5'))))
+# +":19191"
+client.start_numpy_client([server_ip,server_ip1], client=CifarClient(len(glob.glob('local_models/client_'+client_ip+'*.h5'))))
+# client.start_numpy_client(server_ip1, client=CifarClient(len(glob.glob('local_models/*.h5'))))

@@ -85,6 +85,7 @@ def start_server(  # pylint: disable=too-many-arguments
     log(INFO, msg)
 
     hist = _fl(
+        ip=server_address,
         server=initialized_server,
         config=initialized_config,
         force_final_distributed_eval=force_final_distributed_eval,
@@ -118,10 +119,10 @@ def _init_defaults(
 
 
 def _fl(
-    server: Server, config: Dict[str, int], force_final_distributed_eval: bool
+    ip: str, server: Server, config: Dict[str, int], force_final_distributed_eval: bool
 ) -> History:
     # Fit model
-    hist = server.fit(num_rounds=config["num_rounds"])
+    hist = server.fit(ip=ip,num_rounds=config["num_rounds"])
     log(INFO, "app_fit: losses_distributed %s", str(hist.losses_distributed))
     log(INFO, "app_fit: metrics_distributed %s", str(hist.metrics_distributed))
     log(INFO, "app_fit: losses_centralized %s", str(hist.losses_centralized))

@@ -14,11 +14,13 @@ class FlowerServiceStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.Join = channel.stream_stream(
-                '/flower.transport.FlowerService/Join',
-                request_serializer=flwr_dot_proto_dot_transport__pb2.ClientMessage.SerializeToString,
-                response_deserializer=flwr_dot_proto_dot_transport__pb2.ServerMessage.FromString,
-                )
+        channels = channel
+        for channel in channels:
+            self.Join = channel.stream_stream(
+                    '/flower.transport.FlowerService/Join',
+                    request_serializer=flwr_dot_proto_dot_transport__pb2.ClientMessage.SerializeToString,
+                    response_deserializer=flwr_dot_proto_dot_transport__pb2.ServerMessage.FromString,
+                    )
 
 
 class FlowerServiceServicer(object):
