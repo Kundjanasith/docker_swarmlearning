@@ -9,7 +9,7 @@ import glob
 # server_ip = os.environ["server"]
 client_ip = sys.argv[1]
 server_ip = sys.argv[2]
-server_ip1 = sys.argv[3]
+# server_ip1 = sys.argv[3]
 
 print('CLIENT IP',client_ip)
 print('SERVER IP',server_ip)
@@ -57,5 +57,5 @@ class CifarClient(client.NumPyClient):
 
 # Start Flower client
 # +":19191"
-client.start_numpy_client([server_ip,server_ip1], client=CifarClient(len(glob.glob('local_models/client_'+client_ip+'*.h5'))))
+client.start_numpy_client([server_ip], client=CifarClient(len(glob.glob('local_models/client_'+client_ip+'*.h5'))))
 # client.start_numpy_client(server_ip1, client=CifarClient(len(glob.glob('local_models/*.h5'))))
